@@ -15,15 +15,15 @@
 
 (defn ler-nota!
   []
-  (println "Informe a nota (ou deixe em branco para cancelar):")
+  (println "Informe a nota de 0 a 10(ou deixe em branco para cancelar):")
   (let [entrada (read-line)]
     (if (str/blank? entrada)
       nil
       (let [v (limpar-numero entrada)]
-        (if (number? v)
+        (if (and(number? v) (>= v 0) (<= v 10))
           v
           (do
-            (println "Valor inválido. Digite um número, ex.: 8.5")
+            (println "Digite um numero de o a 10, exemplo: 8.5")
             (recur)))))))
 
 (defn cadastrar-alunos
@@ -76,7 +76,7 @@
 
 (defn relatorio-notas
   [alunos]
-  (println "---> RELATORIO DE NOTAS <----")
+  (println "=== RELATORIO DE NOTAS ===")
   (println "Alunos cadastrados:")
   (imprimir-alunos alunos)
   (println)
@@ -91,12 +91,11 @@
   (let [m (media alunos)]
     (if m
       (println "Media geral da turma:" (fmt-1c m))
-      (println "Media geral da turma: (indisponivel – nao ha alunos)")))
+      (println "Media geral da turma: (indisponivel nao ha alunos)")))
   (println "===========================")
   alunos)
 
 (defn estatisticas-gerais
-  "Exibe total, aprovados, reprovados, maior nota, menor nota e media."
   [alunos]
   (println "=== ESTATISTICAS GERAIS ===")
   (let [total (count alunos)
@@ -115,6 +114,7 @@
   alunos)
 
 (defn buscar-aluno
+  "Desafio extra: busca aluno por nome (case-insensitive) e exibe nota e status."
   [alunos]
   (println "Digite o nome a buscar:")
   (let [q (read-line)
